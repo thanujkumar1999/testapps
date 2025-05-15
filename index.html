@@ -8,12 +8,13 @@
 </head>
 <body>
   <script>
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user) {
-      window.location.href = 'login.html';
-    }
+	const user = JSON.parse(localStorage.getItem('currentUser'));
+	if (!user) {
+		window.location.href = 'login.html';
+	} else {
+		document.getElementById('welcomeMsg').textContent = `👋 Welcome, ${user.name}`;
+	}
   </script>
-
   <header>
     <nav>
       <div class="logo">
