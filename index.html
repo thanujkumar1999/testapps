@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIDE - UoH</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <header>
+    <nav>
+      <div class="logo">
+		<img src="tide-logo.png" alt="TIDE Logo" />
+        TIDE - UoH
+      </div>
+      <button class="menu-icon" onclick="toggleMenu()">Menu</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#facilities">Facilities</a></li>
+        <li><a href="#seedfund">Seed Fund</a></li>
+        <li><a href="#ourstartup">Our Startups</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Empowering Startups in Electronics & IT</h1>
+    <p>Innovation, Incubation, and Impact at University of Hyderabad</p>
+    <a href="#apply" class="btn">Apply for Incubation</a>
+  </section>
+
+  <main>
+    <script>
+      if (user) {
+        document.write(`<p style="text-align:right;padding:10px;font-weight:bold;">👋 Welcome, ${user.name}</p>`);
+      }
+    </script>
+
+    <section id="about"><h2>About TIDE</h2><p>Technology Incubation and Development of Entrepreneurs (TIDE) centre at UoH was initiated in the year 2012 under invitation from Ministry of Electronics and Information technology (MEITy) (then DEITy) , Ministry of Information Technology, Govt of India and University of Hyderabad. ASPIRE-TIDE aims to encourage the research and scientific community at UoH and elsewhere to initiate or mentor technology start-up companies for commercial exploitation of technologies. The objective of TIDE at UoH is to promote and accelerate development of entrepreneurial Technology Based Small Enterprises (TBSEs) in areas related to Electronics, Information Technology and Communication Technology through an array of business support resources, domain expertise, prototyping facilities and other infra-structure available in the University.</p></section>
+    <section id="events"><h2>Events</h2><p>TIDE conducts startup showcases, workshops, and expert sessions to foster networking, learning, and investor access.</p></section>
+    <section id="facilities">
+      <h2>Facilities</h2>
+      <ul>
+        <li>Prototyping lab with 3D printers and circuit milling.</li>
+        <li>Dedicated workstations for electronics and IT startups.</li>
+        <li>Private incubatee offices and co-working spaces.</li>
+        <li>Mentoring, funding support, and networking events.</li>
+      </ul>
+    </section>
+    <section id="seedfund"><h2>Seed Fund</h2><p>TIDE provides financial aid and seed funding through various government and private collaborations. Mentorship, IPR support, and market linkage are also available.</p></section>
+    <section id="ourstartup"><h2>Our Startups</h2><p>TIDE has supported over 80 startups under the ASPIRE initiative. These startups span domains from AI to HealthTech, supported by state-of-the-art lab suites.</p></section>
+	
+	<section id="apply">
+      <h2>Apply for Incubation</h2>
+      <p>Interested in joining TIDE? Submit your startup idea and business model for evaluation.</p>
+      <a href="https://forms.gle/fJB2BPcpefKEZRye9" class="btn" target="_blank">Apply Now</a>
+    </section>
+	
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <form action="https://formspree.io/f/mjvowklj" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="_replyto" placeholder="Email Address" required />
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 TIDE - University of Hyderabad</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

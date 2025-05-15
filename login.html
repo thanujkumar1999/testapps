@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Splash screen styles */
+	/* Base Reset */
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	/* Centering the login container */
+	html, body {
+		height: 100%;
+		font-family: 'Segoe UI', Tahoma, sans-serif;
+		background: #f2f2f2;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	/* Container box */
+	.container {
+		background: white;
+		padding: 30px;
+		border-radius: 10px;
+		box-shadow: 0 0 15px rgba(0,0,0,0.1);
+		max-width: 400px;
+		width: 100%;
+		text-align: center;
+	}
+
+	/* Title */
+	#formTitle {
+		color: #0077b6;
+		margin-bottom: 20px;
+	}
+
+	/* Tabs */
+	.tabs {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-bottom: 20px;
+	}
+
+	.tabButton {
+		padding: 10px 20px;
+		border: none;
+		border-radius: 5px;
+		background: #0077b6;
+		color: white;
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	.tabButton.active {
+		background: #023e8a;
+	}
+
+	/* Form layout */
+	.form {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		margin-top: 10px;
+	}
+
+	input {
+		padding: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
+	button {
+		padding: 10px;
+		background: #0077b6;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+	button:hover {
+		background: #005f8d;
+	}
+
+	/* Message */
+	#message, #recoveryMessage {
+		margin-top: 10px;
+		font-size: 0.9rem;
+		min-height: 20px;
+	}
+
+	/* Forgot links */
+	.forgot-links {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	.forgot-links a {
+		text-decoration: none;
+		color: #007BFF;
+		cursor: pointer;
+	}
+
+	.forgot-links a:hover {
+		text-decoration: underline;
+	}
+
+	/* Recovery Section */
+	#recoverySection {
+		margin-top: 15px;
+	}
+	
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #splash img {
+      max-width: 200px;
+      margin: 20px;
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in forwards;
+    }
+
+    #splash img:nth-child(2) {
+      animation-delay: 1s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img src="uoh-logo.png" alt="University of Hyderabad Logo" />
+    <img src="tide-logo.png" alt="ASPIRE TIDE Logo" />
+  </div>
+
+  <!-- Login/Register Form -->
+  <div class="container hidden" id="mainContent">
+    <h2 id="formTitle">Login</h2>
+    <div class="tabs">
+      <button id="loginTab" class="tabButton active">Login</button>
+      <button id="registerTab" class="tabButton">Register</button>
+    </div>
+
+    <form id="loginForm" class="form">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" required />
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" required />
+      <button type="submit">Login</button>
+    </form>
+
+    <form id="registrationForm" class="form" style="display: none;">
+      <label for="regName">Name</label>
+      <input type="text" id="regName" required />
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" required />
+      <label for="regPassword">Password</label>
+      <input type="password" id="regPassword" required />
+      <button type="submit">Register</button>
+    </form>
+
+	<!-- Forgot Links -->
+    <p class="forgot-links">
+      <a href="#" id="forgotUsername">Forgot Username?</a> |
+      <a href="#" id="forgotPassword">Forgot Password?</a>
+    </p>
+
+    <!-- Recovery Section -->
+    <div id="recoverySection" class="form hidden">
+      <label for="recoveryEmail">Enter your registered email</label>
+      <input type="email" id="recoveryEmail" required />
+      <button type="button" id="recoverBtn">Recover</button>
+      <p id="recoveryMessage"></p>
+    </div>
+
+    <p id="message"></p>
+  </div>
+
+  <script>
+    // Splash screen delay
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash');
+        splash.classList.add('fade-out');
+        setTimeout(() => {
+          splash.classList.add('hidden');
+          document.getElementById('mainContent').classList.remove('hidden');
+        }, 1000); // wait for fade-out to complete
+      }, 5000); // show splash for 5 seconds
+    });
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f2f2f2;
+  color: #333;
+}
+
+/* Form fields on separate lines with spacing */
+.form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form button {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form button:hover {
+  background-color: #005f8d;
+}
+
+/* Header / Nav */
+header {
+  background-color: #0077b6; /* blue */
+  padding: 10px 0;
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+.menu-icon {
+  display: none;
+  background-color: #023e8a;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(to right, #0077b6, #00b4d8);
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+}
+.hero h1 {
+  font-size: 2.8rem;
+}
+.hero p {
+  margin: 15px 0 25px;
+  font-size: 1.1rem;
+}
+.btn {
+  background: #03045e;
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+.btn:hover {
+  background: #023e8a;
+}
+
+/* Main Content */
+main {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+}
+section {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+  margin-bottom: 40px;
+}
+section h2 {
+  color: #023e8a;
+  margin-bottom: 10px;
+}
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+/* Contact Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input, textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  padding: 10px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background: #005f8d;
+}
+
+/* Footer */
+footer {
+  background: #023e8a;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background: #0077b6;
+    right: 20px;
+    top: 60px;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  .nav-links.show {
+    display: flex;
+  }
+  .nav-links li {
+    margin: 10px 0;
+  }
+}
+/* for recoverySection */
+.forgot-links {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-links a {
+  text-decoration: none;
+  color: #007BFF;
+  cursor: pointer;
+}
+
+.forgot-links a:hover {
+  text-decoration: underline;
+}
+
+#recoverySection {
+  margin-top: 15px;
