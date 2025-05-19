@@ -48,7 +48,38 @@
     </script>
 
     <section id="about"><h2>About TIDE</h2><p>Technology Incubation and Development of Entrepreneurs (TIDE) centre at UoH was initiated in the year 2012 under invitation from Ministry of Electronics and Information technology (MEITy) (then DEITy) , Ministry of Information Technology, Govt of India and University of Hyderabad. ASPIRE-TIDE aims to encourage the research and scientific community at UoH and elsewhere to initiate or mentor technology start-up companies for commercial exploitation of technologies. The objective of TIDE at UoH is to promote and accelerate development of entrepreneurial Technology Based Small Enterprises (TBSEs) in areas related to Electronics, Information Technology and Communication Technology through an array of business support resources, domain expertise, prototyping facilities and other infra-structure available in the University.</p></section>
-    <section id="events"><h2>Events</h2><p>TIDE conducts startup showcases, workshops, and expert sessions to foster networking, learning, and investor access.</p></section>
+    <!-- <section id="events"><h2>Events</h2><p>TIDE conducts startup showcases, workshops, and expert sessions to foster networking, learning, and investor access.</p></section> -->
+    <section id="events">
+      <h2>Events</h2>
+    
+      <!-- Tab Buttons -->
+      <div class="tab">
+        <button class="tablinks active" onclick="openEventTab(event, 'hackathon')">Hackathon</button>
+        <button class="tablinks" onclick="openEventTab(event, 'internships')">Internships</button>
+      </div>
+    
+      <!-- Tab Content -->
+      <div id="hackathon" class="tabcontent" style="display: block;">
+        <h2>Upcoming Hackathon: InnovateX 2025</h2>
+        <p>Join us for a 48-hour innovation sprint where developers, designers, and entrepreneurs collaborate to solve real-world challenges. Whether you're a seasoned coder or a budding innovator, InnovateX 2025 offers a platform to showcase your skills and make a tangible impact.</p>
+        <ul>
+          <li><strong>📅 Dates:</strong> July 12–14, 2025</li>
+          <li><strong>📍 Venue:</strong> ASPIRE Incubation Center, University of Hyderabad</li>
+          <li><strong>🎯 Theme:</strong> Smart Solutions for Sustainable Living</li>
+          <li><strong>💡 Format:</strong> In-person, team-based (2–5 members)</li>
+          <li><strong>🏆 Prizes:</strong> ₹1,00,000 in cash, incubation support, and mentorship opportunities</li>
+        </ul>
+
+        <a href="https://aspire.uohyd.ac.in/hackathon" target="_blank" rel="noopener noreferrer">
+          <button class="hackathon-btn">Register Now</button>
+        </a>
+    
+      <div id="internships" class="tabcontent">
+        <h3>Summer Internship Program</h3>
+        <p>Explore internship opportunities across various departments and gain hands-on experience in your field of interest.</p>
+      </div>
+    </section>
+    
     <section id="facilities">
       <h2>Facilities</h2>
       <ul>
@@ -57,8 +88,88 @@
         <li>Private incubatee offices and co-working spaces.</li>
         <li>Mentoring, funding support, and networking events.</li>
       </ul>
+      <div class="facility-spacing"></div>
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('conferenceTab')">Conference Booking</button>
+        <button class="tab-btn" onclick="switchTab('instrumentationTab')">Instrumentation Booking</button>
+      </div>
+      <div id="conferenceTab" class="tab-content active">
+        <h3>Conference Room Booking</h3>
+
+        <input type="text" id="confName" placeholder="Your Name" />
+		    <input type="text" id="confNumber" placeholder="Your Mobile Number" />
+		    <input type="date"   id="confDate"    required />
+        <select id="confSlot">
+          <option value="">-- Select Slot --</option>
+          <option>09:00 AM - 10:00 AM</option>
+          <option>10:00 AM - 11:00 AM</option>
+          <option>11:00 AM - 12:00 PM</option>
+          <option>01:00 PM - 02:00 PM</option>
+          <option>02:00 PM - 03:00 PM</option>
+          <option>03:00 PM - 04:00 PM</option>
+		      <option>04:00 PM - 05:00 PM</option>
+        </select>
+		    <input type="text"   id="confPurpose" placeholder="Purpose of Booking" />
+        <button onclick="bookConference()">Book Slot</button>
+        <p id="confMessage"></p>
+
+        <table id="confTable" style="width:100%; border-collapse: collapse; margin-top:1rem;">
+          <thead>
+            <tr>
+              <th style="border:1px solid #ccc; padding:8px;">Name</th>
+			        <th style="border:1px solid #ccc; padding:8px;">Number</th>
+              <th style="border:1px solid #ccc; padding:8px;">Date</th>
+			        <th style="border:1px solid #ccc; padding:8px;">Slot</th>
+			        <th style="border:1px solid #ccc; padding:8px;">Purpose</th>
+            </tr>
+          </thead>
+          <tbody id="confTableBody"></tbody>
+        </table>
+      </div>
+      <div id="instrumentationTab" class="tab-content">
+      <h3>Instrumentation Booking</h3>
+      <div class="booking-form">
+      <input type="text" id="instInstrumentName" placeholder="Instrument Name" required />
+      <input type="text" id="instName" placeholder="Your Name" required />
+      <input type="text" id="instNumber" placeholder="Your Number" required />
+      <input type="date" id="instDate" required />
+        <select id="instSlot" required>
+          <option value="">-- Select Slot --</option>
+          <option>09:00 AM - 10:00 AM</option>
+          <option>10:00 AM - 11:00 AM</option>
+          <option>11:00 AM - 12:00 PM</option>
+          <option>12:00 PM - 01:00 PM</option>
+          <option>02:00 PM - 03:00 PM</option>
+          <option>03:00 PM - 04:00 PM</option>
+          <option>04:00 PM - 05:00 PM</option>
+        </select>
+      <input type="text" id="instPurpose" placeholder="Purpose of Booking" required />
+      <button onclick="bookInstrumentation()">Book Instrument</button>
+      <p id="instMessage"></p>
+      <table style="margin-top: 20px; width: 100%; border-collapse: collapse;">
+      <thead>
+      <tr>
+        <th>InstrumentName</th>
+        <th>Booked by</th>
+        <th>Number</th>
+        <th>Date</th>
+        <th>Slot</th>
+        <th>Purpose</th>
+      </tr>
+      </thead>
+      <tbody id="instTableBody"></tbody>
+      </table>
+    </div>
     </section>
-    <section id="seedfund"><h2>Seed Fund</h2><p>TIDE provides financial aid and seed funding through various government and private collaborations. Mentorship, IPR support, and market linkage are also available.</p></section>
+    <section id="seedfund"><h2>Seed Fund</h2>
+      <p>TIDE provides financial aid and seed funding through various government and private collaborations. Mentorship, IPR support, and market linkage are also available.</p>
+      <p><li>To Learn more about the Startup India Seed Fund Scheme and how ASPIRE supports startups through funding and incubation.</li></p>
+      <div class="seed-fund-link">
+        <a href="https://aspire.uohyd.ac.in/seed-fund-page/" target="_blank" rel="noopener noreferrer">
+          <button class="seed-fund-btn">Visit ASPIRE Seed Fund Page</button>
+        </a>
+      </div>
+    </section>
     <section id="ourstartup"><h2>Our Startups</h2><p>TIDE has supported over 80 startups under the ASPIRE initiative. These startups span domains from AI to HealthTech, supported by state-of-the-art lab suites.</p></section>
 	
 	<section id="apply">
@@ -82,6 +193,7 @@
     <p>&copy; 2025 TIDE - University of Hyderabad</p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

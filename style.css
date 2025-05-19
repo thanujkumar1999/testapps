@@ -208,3 +208,162 @@ footer {
 
 #recoverySection {
   margin-top: 15px;
+}
+
+/* for booking section */
+.tab-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background: #eee;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.tab-btn.active {
+  background-color: #007BFF;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.facility-spacing {
+  margin: 30px 0;
+  border-top: 2px dashed #ccc;
+  padding-top: 20px;
+}
+
+/* for seed fund */
+.seed-fund-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.seed-fund-btn {
+  background-color: #007BFF;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.seed-fund-btn:hover {
+  background-color: #0056b3;
+}
+
+/* for hackthon */
+#hackathon {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  margin-top: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#hackathon h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+#hackathon p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #34495e;
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+
+#hackathon ul {
+  list-style: none;
+  padding: 0;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+}
+
+#hackathon ul li {
+  margin: 10px 0;
+  font-size: 1em;
+  color: #2c3e50;
+}
+
+.hackathon-btn {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  padding: 12px 0;
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hackathon-btn:hover {
+  background-color: #219150;
+}
+
+/* for events */
+/* Tab container */
+.tab {
+  overflow: hidden;
+  border-bottom: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Hackathon Tab Content */
+#hackathon {
+  background-color: #e6f7ff; /* Light blue */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Internships Tab Content */
+#internships {
+  background-color: #fffbe6; /* Light yellow */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Tab buttons */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Active tab button */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Tab content */
+.tabcontent {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
