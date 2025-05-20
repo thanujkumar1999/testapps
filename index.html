@@ -146,18 +146,19 @@
       <input type="text" id="instPurpose" placeholder="Purpose of Booking" required />
       <button onclick="bookInstrumentation()">Book Instrument</button>
       <p id="instMessage"></p>
-      <table style="margin-top: 20px; width: 100%; border-collapse: collapse;">
-      <thead>
-      <tr>
-        <th>InstrumentName</th>
-        <th>Booked by</th>
-        <th>Number</th>
-        <th>Date</th>
-        <th>Slot</th>
-        <th>Purpose</th>
-      </tr>
-      </thead>
-      <tbody id="instTableBody"></tbody>
+
+      <table id="instTable" style="width:100%; border-collapse: collapse; margin-top:1rem;">
+        <thead>
+          <tr>
+            <th style="border:1px solid #ccc; padding:8px;">InstrumentName</th>
+            <th style="border:1px solid #ccc; padding:8px;">Booked by</th>
+            <th style="border:1px solid #ccc; padding:8px;">Number</th>
+            <th style="border:1px solid #ccc; padding:8px;">Date</th>
+            <th style="border:1px solid #ccc; padding:8px;">Slot</th>
+            <th style="border:1px solid #ccc; padding:8px;">Purpose</th>
+          </tr>
+        </thead>
+        <tbody id="instTableBody"></tbody>
       </table>
     </div>
     </section>
