@@ -42,7 +42,6 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
   setTimeout(() => {
     window.location.href = 'index.html'; 
-    console.log("✅ Redirecting to index.html");
   }, 3000);
   
 });

@@ -218,19 +218,22 @@ footer {
 }
 
 .tab-btn {
-  padding: 10px 20px;
-  background: #eee;
+  background-color: #2196F3; 
+  color: white;
   border: none;
+  padding: 10px 20px;
   cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: 4px;
 }
 
 .tab-btn.active {
-  background-color: #007BFF;
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
 }
-
 .tab-content {
   display: none;
 }
@@ -267,12 +270,11 @@ footer {
 }
 
 /* for hackthon */
+/* Hackathon Tab Content */
 #hackathon {
-  background-color: #f9f9f9;
-  padding: 40px 20px;
-  margin-top: 30px;
+  background-color: #e6f7ff; /* Light blue */
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #hackathon h2 {
@@ -324,40 +326,36 @@ footer {
 /* for events */
 /* Tab container */
 .tab {
-  overflow: hidden;
-  border-bottom: 1px solid #ccc;
-  background-color: #f1f1f1;
-}
-
-/* Hackathon Tab Content */
-#hackathon {
-  background-color: #e6f7ff; /* Light blue */
-  padding: 20px;
-  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 /* Internships Tab Content */
 #internships {
-  background-color: #fffbe6; /* Light yellow */
+  background-color: #fffbe6; 
   padding: 20px;
   border-radius: 8px;
 }
 
 /* Tab buttons */
 .tab button {
-  background-color: inherit;
-  float: left;
+  background-color: #2196F3;
+  color: white;
   border: none;
-  outline: none;
+  padding: 10px 20px;
   cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
+  border-radius: 4px;
 }
 
 /* Active tab button */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 /* Tab content */
@@ -366,4 +364,18 @@ footer {
   padding: 20px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+/* Conference Booking Tab Content */
+#conferenceTab {
+  background-color: #e6f7ff; 
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Instrumentation Booking Tab Content */
+#instrumentationTab {
+  background-color: #fffbe6; 
+  padding: 20px;
+  border-radius: 8px;
 }
