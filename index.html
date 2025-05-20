@@ -147,20 +147,22 @@
       <button onclick="bookInstrumentation()">Book Instrument</button>
       <p id="instMessage"></p>
 
-      <table id="instTable" style="width:500px; border-collapse: collapse; margin-top:1rem; table-layout: fixed;">
-        <thead>
-          <tr>
-            <th style="width:150px; border:1px solid #ccc; padding:8px;">Instrument Name</th>
-            <th style="width:100px; border:1px solid #ccc; padding:8px;">Booked by</th>
-            <th style="width:80px; border:1px solid #ccc; padding:8px;">Number</th>
-            <th style="width:100px; border:1px solid #ccc; padding:8px;">Date</th>
-            <th style="width:70px; border:1px solid #ccc; padding:8px;">Slot</th>
-            <th style="width:100px; border:1px solid #ccc; padding:8px;">Purpose</th>
-          </tr>
-        </thead>
-        <tbody id="instTableBody"></tbody>
-      </table>
-    </div>
+      <div style="overflow-x: auto;">
+        <table id="instTable" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #ccc; padding: 8px;">InstrName</th>
+              <th style="border: 1px solid #ccc; padding: 8px;">Name</th>
+              <th style="border: 1px solid #ccc; padding: 8px;">Number</th>
+              <th style="border: 1px solid #ccc; padding: 8px;">Date</th>
+              <th style="border: 1px solid #ccc; padding: 8px;">Slot</th>
+              <th style="border: 1px solid #ccc; padding: 8px;">Purpose</th>
+            </tr>
+          </thead>
+          <tbody id="instTableBody"></tbody>
+        </table>
+      </div>
+      
     </section>
     <section id="seedfund"><h2>Seed Fund</h2>
       <p>TIDE provides financial aid and seed funding through various government and private collaborations. Mentorship, IPR support, and market linkage are also available.</p>
