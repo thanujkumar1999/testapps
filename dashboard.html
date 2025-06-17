@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .dashboard-container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #004080;
+      margin-bottom: 20px;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #004080;
+      margin-bottom: 10px;
+    }
+
+    .profile-upload {
+      margin: 10px 0;
+    }
+
+    .info-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .info-group label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .info-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      background-color: #004080;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #003060;
+    }
+
+    .logout {
+      background-color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <h2><i class="fas fa-user-circle"></i> My Dashboard</h2>
+
+    <img id="profileImage" class="profile-pic" src="default.jpg" alt="Profile Image" />
+    <div class="profile-upload">
+      <input type="file" id="imageUpload" accept="image/*" onchange="previewImage(event)" />
+    </div>
+
+    <div class="user-info">
+      <div class="info-group">
+        <label for="editName">Name</label>
+        <input type="text" id="editName" />
+      </div>
+      <div class="info-group">
+        <label for="editUsername">Username</label>
+        <input type="text" id="editUsername" />
+      </div>
+      <div class="info-group">
+        <label for="editContact">Contact Number</label>
+        <input type="text" id="editContact" />
+      </div>
+    </div>
+
+    <button class="btn" onclick="saveProfile()">Save Profile</button>
+    <h3 style="margin-top: 30px; color:#004080;"><i class="fas fa-calendar-check"></i> Recent Bookings</h3>
+    <div id="bookingList" style="text-align:left; margin-top:10px;"></div>
+
+  </div>
+
+  <script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    alert("User not logged in!");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("editName").value = user.name || "";
+    document.getElementById("editUsername").value = user.username || "";
+    document.getElementById("editContact").value = user.contact || "";
+    if (user.image) {
+      document.getElementById("profileImage").src = user.image;
+    }
+  }
+
+  function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const imageUrl = reader.result;
+      document.getElementById("profileImage").src = imageUrl;
+
+      const updatedUser = {
+        ...JSON.parse(localStorage.getItem("user")),
+        image: imageUrl
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  function saveProfile() {
+    const updatedUser = {
+      name: document.getElementById("editName").value.trim(),
+      username: document.getElementById("editUsername").value.trim(),
+      contact: document.getElementById("editContact").value.trim(),
+      image: document.getElementById("profileImage").src
+    };
+
+    if (!updatedUser.name || !updatedUser.username || !updatedUser.contact) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    alert("Profile updated successfully!");
+  }
+
+  // Load recent bookings
+  function loadBookings() {
+    const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+    const conferenceBookings = JSON.parse(localStorage.getItem("conferenceBookings")) || [];
+
+    const userName = user.name;
+    const filteredBookings = bookings.filter(b => b.name === userName);
+    const filteredConfs = conferenceBookings.filter(c => c.name === userName);
+
+    let html = "";
+
+    if (filteredBookings.length === 0 && filteredConfs.length === 0) {
+      html = "<p>No bookings yet.</p>";
+    }
+
+    if (filteredBookings.length > 0) {
+      html += `<h4>Instrument Bookings</h4>`;
+      html += filteredBookings.map(b => `
+        <div style="padding:10px; border-left:4px solid #004080; margin-bottom:10px; background:#f9f9f9;">
+          <strong>${b.instrument}</strong><br/>
+          Date: ${b.date}<br/>
+          Slot: ${b.slot}<br/>
+          Purpose: ${b.purpose}<br/>
+          ID: <code>${b.bookingId}</code>
+        </div>
+      `).join('');
+    }
+
+    if (filteredConfs.length > 0) {
+      html += `<h4>Conference Room Bookings</h4>`;
+      html += filteredConfs.map(c => `
+        <div style="padding:10px; border-left:4px solid #007bff; margin-bottom:10px; background:#f9f9f9;">
+          <strong>${c.room}</strong><br/>
+          Date: ${c.date}<br/>
+          Slot: ${c.slot}<br/>
+          Purpose: ${c.purpose}<br/>
+          ID: <code>${c.bookingId}</code>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById("bookingList").innerHTML = html;
+  }
+
+  window.onload = loadBookings;
+</script>
+
+</body>
+</html>

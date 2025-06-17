@@ -2,201 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TIDE - UoH</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Aspire-TIDE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    .header {
+      background: #004080;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      padding-bottom: 80px; /* ensure space above bottom nav */
+    }
+
+    .card {
+      background: white;
+      padding: 25px 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .card i {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #004080;
+    }
+
+    .card span {
+      display: block;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #004080;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    .bottom-nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .bottom-nav a i {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px 5px;
+      }
+
+      .card i {
+        font-size: 24px;
+      }
+
+      .card span {
+        font-size: 14px;
+      }
+
+      .bottom-nav a {
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
+
+  <div class="header">ASPIRE-TIDE</div>
+
+  <div class="grid-container">
+    <div class="card" onclick="location.href='instrumentbooking.html'">
+      <i class="fas fa-microscope"></i>
+      <span>Instrument Booking</span>
+    </div>
+    <div class="card" onclick="location.href='confroombooking.html'">
+      <i class="fas fa-door-open"></i>
+      <span>Conference Room Booking</span>
+    </div>
+    <div class="card" onclick="location.href='dashboard.html'">
+      <i class="fas fa-id-card"></i>
+      <span>My Dashboard</span>
+    </div>
+    <div class="card" onclick="location.href='hackathon.html'">
+      <i class="fas fa-laptop-code"></i>
+      <span>Hackathon</span>
+    </div>
+    <div class="card" onclick="location.href='internships.html'">
+      <i class="fas fa-briefcase"></i>
+      <span>Internships</span>
+    </div>
+    <div class="card" onclick="location.href='history.html'">
+      <i class="fas fa-history"></i>
+      <span>History</span>
+    </div>
+    <div class="card" onclick="location.href='help.html'">
+      <i class="fas fa-question-circle"></i>
+      <span>Help</span>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="index.html">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="chat.html">
+      <i class="fas fa-comments"></i>
+      <span>Chat</span>
+    </a>
+    <a href="#" onclick="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+
   <script>
-	const user = JSON.parse(localStorage.getItem('currentUser'));
-	if (!user) {
-		window.location.href = 'login.html';
-	} else {
-		document.getElementById('welcomeMsg').textContent = `👋 Welcome, ${user.name}`;
-	}
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    }
   </script>
-  <header>
-    <nav>
-      <div class="logo">
-		<img src="tide-logo.png" alt="TIDE Logo" />
-        TIDE - UoH
-      </div>
-      <button class="menu-icon" onclick="toggleMenu()">Menu</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#facilities">Facilities</a></li>
-        <li><a href="#seedfund">Seed Fund</a></li>
-        <li><a href="#ourstartup">Our Startups</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#" onclick="logout()">Logout</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <section class="hero">
-    <h1>Empowering Startups in Electronics & IT</h1>
-    <p>Innovation, Incubation, and Impact at University of Hyderabad</p>
-    <a href="#apply" class="btn">Apply for Incubation</a>
-  </section>
-
-  <main>
-    <script>
-      if (user) {
-        document.write(`<p style="text-align:right;padding:10px;font-weight:bold;">👋 Welcome, ${user.name}</p>`);
-      }
-    </script>
-
-    <section id="about"><h2>About TIDE</h2><p>Technology Incubation and Development of Entrepreneurs (TIDE) centre at UoH was initiated in the year 2012 under invitation from Ministry of Electronics and Information technology (MEITy) (then DEITy) , Ministry of Information Technology, Govt of India and University of Hyderabad. ASPIRE-TIDE aims to encourage the research and scientific community at UoH and elsewhere to initiate or mentor technology start-up companies for commercial exploitation of technologies. The objective of TIDE at UoH is to promote and accelerate development of entrepreneurial Technology Based Small Enterprises (TBSEs) in areas related to Electronics, Information Technology and Communication Technology through an array of business support resources, domain expertise, prototyping facilities and other infra-structure available in the University.</p></section>
-    <!-- <section id="events"><h2>Events</h2><p>TIDE conducts startup showcases, workshops, and expert sessions to foster networking, learning, and investor access.</p></section> -->
-    <section id="events">
-      <h2>Events</h2>
-    
-      <!-- Tab Buttons -->
-      <div class="tab">
-        <button class="tablinks active" onclick="openEventTab(event, 'hackathon')">Hackathon</button>
-        <button class="tablinks" onclick="openEventTab(event, 'internships')">Internships</button>
-      </div>
-    
-      <!-- Tab Content -->
-      <div id="hackathon" class="tabcontent" style="display: block;">
-        <h2>Upcoming Hackathon: TechVista 2025</h2>
-        <p>Join us for a 48-hour innovation sprint where developers, designers, and entrepreneurs collaborate to solve real-world challenges. Whether you're a seasoned coder or a budding innovator, TechVista 2025 offers a platform to showcase your skills and make a tangible impact.</p>
-        <ul>
-          <li><strong>📅 Dates:</strong> July 29–30, 2025</li>
-          <li><strong>📍 Venue:</strong> ASPIRE TIDE Incubation Center, University of Hyderabad</li>
-          <li><strong>🎯 Theme:</strong> Smart Solutions for Sustainable Living</li>
-          <li><strong>💡 Format:</strong> In-person, team-based (2–5 members)</li>
-          <li><strong>🏆 Prizes:</strong> ₹10,000 in cash, incubation support, and mentorship opportunities</li>
-        </ul>
-
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeKeWLt04pyTFE43ITSi-FC76H6GMUwRZLn07jIIlTUBDl1Eg/viewform?usp=sharing&ouid=114636627991783285586" target="_blank" rel="noopener noreferrer">
-          <button class="hackathon-btn">Register Now</button>
-        </a>
-      </div>
-      <div id="internships" class="tabcontent" style="display: none;">
-        <h2>Internship Program</h2>
-        <p>Currently we are not having any openings. For the latest updates on internship opportunities, regularly check this Page</p>
-      </div>
-    </section>
-    
-    <section id="facilities">
-      <h2>Facilities</h2>
-      <ul>
-        <li>Prototyping lab with 3D printers and circuit milling.</li>
-        <li>Dedicated workstations for electronics and IT startups.</li>
-        <li>Private incubatee offices and co-working spaces.</li>
-        <li>Mentoring, funding support, and networking events.</li>
-      </ul>
-      <div class="facility-spacing"></div>
-      <div class="tab-buttons">
-        <button class="tab-btn active" onclick="switchTab('conferenceTab')">Conference Booking</button>
-        <button class="tab-btn" onclick="switchTab('instrumentationTab')">Instrumentation Booking</button>
-      </div>
-      <div id="conferenceTab" class="tab-content active">
-        <h3>Conference Room Booking</h3>
-
-        <input type="text" id="confName" placeholder="Your Name" />
-		    <input type="text" id="confNumber" placeholder="Your Mobile Number" />
-		    <input type="date"   id="confDate"    required />
-        <select id="confSlot">
-          <option value="">-- Select Slot --</option>
-          <option>09:00 AM - 10:00 AM</option>
-          <option>10:00 AM - 11:00 AM</option>
-          <option>11:00 AM - 12:00 PM</option>
-          <option>01:00 PM - 02:00 PM</option>
-          <option>02:00 PM - 03:00 PM</option>
-          <option>03:00 PM - 04:00 PM</option>
-		      <option>04:00 PM - 05:00 PM</option>
-        </select>
-		    <input type="text"   id="confPurpose" placeholder="Purpose of Booking" />
-        <button onclick="bookConference()">Book Slot</button>
-        <p id="confMessage"></p>
-
-        <table id="confTable" style="width:100%; border-collapse: collapse; margin-top:1rem;">
-          <thead>
-            <tr>
-              <th style="border:1px solid #ccc; padding:8px;">Name</th>
-			        <th style="border:1px solid #ccc; padding:8px;">Number</th>
-              <th style="border:1px solid #ccc; padding:8px;">Date</th>
-			        <th style="border:1px solid #ccc; padding:8px;">Slot</th>
-			        <th style="border:1px solid #ccc; padding:8px;">Purpose</th>
-            </tr>
-          </thead>
-          <tbody id="confTableBody"></tbody>
-        </table>
-      </div>
-      <div id="instrumentationTab" class="tab-content">
-      <h3>Instrumentation Booking</h3>
-      <div class="booking-form">
-      <input type="text" id="instInstrumentName" placeholder="Instrument Name" required />
-      <input type="text" id="instName" placeholder="Your Name" required />
-      <input type="text" id="instNumber" placeholder="Your Number" required />
-      <input type="date" id="instDate" required />
-        <select id="instSlot" required>
-          <option value="">-- Select Slot --</option>
-          <option>09:00 AM - 10:00 AM</option>
-          <option>10:00 AM - 11:00 AM</option>
-          <option>11:00 AM - 12:00 PM</option>
-          <option>12:00 PM - 01:00 PM</option>
-          <option>02:00 PM - 03:00 PM</option>
-          <option>03:00 PM - 04:00 PM</option>
-          <option>04:00 PM - 05:00 PM</option>
-        </select>
-      <input type="text" id="instPurpose" placeholder="Purpose of Booking" required />
-      <button onclick="bookInstrumentation()">Book Instrument</button>
-      <p id="instMessage"></p>
-
-      <div style="overflow-x: auto;">
-        <table id="instTable" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-          <thead>
-            <tr>
-              <th style="border: 1px solid #ccc; padding: 8px;">InstrName</th>
-              <th style="border: 1px solid #ccc; padding: 8px;">Name</th>
-              <th style="border: 1px solid #ccc; padding: 8px;">Number</th>
-              <th style="border: 1px solid #ccc; padding: 8px;">Date</th>
-              <th style="border: 1px solid #ccc; padding: 8px;">Slot</th>
-              <th style="border: 1px solid #ccc; padding: 8px;">Purpose</th>
-            </tr>
-          </thead>
-          <tbody id="instTableBody"></tbody>
-        </table>
-      </div>
-      
-    </section>
-    <section id="seedfund"><h2>Seed Fund</h2>
-      <p>TIDE provides financial aid and seed funding through various government and private collaborations. Mentorship, IPR support, and market linkage are also available.</p>
-      <p><li>To Learn more about the Startup India Seed Fund Scheme and how ASPIRE supports startups through funding and incubation.</li></p>
-      <div class="seed-fund-link">
-        <a href="https://aspire.uohyd.ac.in/seed-fund-page/" target="_blank" rel="noopener noreferrer">
-          <button class="seed-fund-btn">Visit ASPIRE Seed Fund Page</button>
-        </a>
-      </div>
-    </section>
-    <section id="ourstartup"><h2>Our Startups</h2><p>TIDE has supported over 80 startups under the ASPIRE initiative. These startups span domains from AI to HealthTech, supported by state-of-the-art lab suites.</p></section>
-	
-	<section id="apply">
-      <h2>Apply for Incubation</h2>
-      <p>Interested in joining TIDE? Submit your startup idea and business model for evaluation.</p>
-      <a href="https://forms.gle/fJB2BPcpefKEZRye9" class="btn" target="_blank">Apply Now</a>
-    </section>
-	
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <form action="https://formspree.io/f/mjvowklj" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="_replyto" placeholder="Email Address" required />
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 TIDE - University of Hyderabad</p>
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="script.js"></script>
 </body>
 </html>

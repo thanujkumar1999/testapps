@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SignUp | ASPIRE-BIONEST</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #f0f8ff; padding: 20px; }
+    .container {
+      max-width: 400px; margin: auto; background: #fff;
+      padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 20px; color: #004080; }
+    .form-group { margin-bottom: 15px; }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 10px;
+    }
+    button {
+      width: 100%; padding: 12px; background: #004080; color: white;
+      border: none; border-radius: 10px; font-size: 16px; cursor: pointer;
+    }
+    button:hover { background: #003060; }
+    .toggle-link {
+      text-align: center; margin-top: 10px; font-size: 14px; cursor: pointer;
+      color: #004080; text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+
+  <div class="form-group">
+    <input type="text" id="signupName" placeholder="Full Name" />
+  </div>
+  <div class="form-group">
+    <input type="text" id="signupUsername" placeholder="Username" />
+  </div>
+  <div class="form-group">
+    <input type="password" id="signupPassword" placeholder="Password" />
+  </div>
+  <div class="form-group">
+    <input type="text" id="signupMPin" placeholder="Set 4-digit M-PIN" maxlength="4" pattern="\d{4}" />
+  </div>
+  <button onclick="createAccount()">Create Account</button>
+  <div class="toggle-link" onclick="location.href='login.html'">Already have an account? Login</div>
+</div>
+
+<script>
+  function createAccount() {
+    const name = document.getElementById("signupName").value.trim();
+    const username = document.getElementById("signupUsername").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
+    const mpin = document.getElementById("signupMPin").value.trim();
+
+    if (!name || !username || !password || !/^\d{4}$/.test(mpin)) {
+      alert("Please fill all fields correctly. M-PIN must be 4 digits.");
+      return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if (users.some(u => u.username === username)) {
+      alert("Username already exists!");
+      return;
+    }
+
+    const user = { name, username, password, mpin };
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Account created successfully. You can now login.");
+    location.href = "login.html";
+  }
+</script>
+</body>
+</html>

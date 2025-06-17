@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking History</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #f4f9ff; color: #333; }
+    .header {
+      background: #004080;
+      color: white;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #e0ecf8;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      background: #fff;
+      border-bottom: 3px solid #004080;
+    }
+
+    .content {
+      padding: 15px;
+    }
+
+    .booking-card {
+      background: #fff;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .booking-card h4 {
+      margin: 0 0 5px;
+      color: #004080;
+    }
+
+    .booking-card p {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">Booking History</div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('instrument')">Instrument</div>
+    <div class="tab" onclick="showTab('conference')">Conference</div>
+  </div>
+
+  <div class="content" id="instrumentTab">
+    <!-- Sample instrument bookings -->
+    <div class="booking-card">
+      <h4>SEM</h4>
+      <p><strong>Date:</strong> 2025-06-15</p>
+      <p><strong>Time:</strong> 10:00 AM - 11:00 AM</p>
+      <p><strong>Purpose:</strong> Research</p>
+      <p><strong>Booking ID:</strong> BK_SEM_202506150945</p>
+    </div>
+    <div class="booking-card">
+      <h4>XRD</h4>
+      <p><strong>Date:</strong> 2025-06-14</p>
+      <p><strong>Time:</strong> Custom: 2:00 PM - 4:00 PM</p>
+      <p><strong>Purpose:</strong> Calibration</p>
+      <p><strong>Booking ID:</strong> BK_XRD_202506141230</p>
+    </div>
+  </div>
+
+  <div class="content" id="conferenceTab" style="display: none;">
+    <!-- Sample conference bookings -->
+    <div class="booking-card">
+      <h4>Conf Room A</h4>
+      <p><strong>Date:</strong> 2025-06-12</p>
+      <p><strong>Time:</strong> 03:00 PM - 05:00 PM</p>
+      <p><strong>Purpose:</strong> Team Presentation</p>
+      <p><strong>Booking ID:</strong> CR_A_202506121410</p>
+    </div>
+    <div class="booking-card">
+      <h4>Conf Room B</h4>
+      <p><strong>Date:</strong> 2025-06-10</p>
+      <p><strong>Time:</strong> 09:00 AM - 11:00 AM</p>
+      <p><strong>Purpose:</strong> Department Meeting</p>
+      <p><strong>Booking ID:</strong> CR_B_202506100900</p>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelector(`.tab[onclick="showTab('${tab}')"]`).classList.add('active');
+
+      document.getElementById('instrumentTab').style.display = (tab === 'instrument') ? 'block' : 'none';
+      document.getElementById('conferenceTab').style.display = (tab === 'conference') ? 'block' : 'none';
+    }
+  </script>
+
+</body>
+</html>

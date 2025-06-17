@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instrument Booking</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { margin: 0; padding: 20px; background: #f4f4f4; color: #333; }
+    .app-container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; margin-bottom: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; }
+    button { width: 100%; padding: 12px; background: #004080; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #003060; }
+    .icons { text-align: center; margin: 20px 0; }
+    .icons i { font-size: 32px; margin: 0 10px; color: #004080; }
+    #bookingIdDisplay { font-weight: bold; margin-top: 10px; text-align: center; }
+    #customTimeContainer { display: none; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <h2><i class="fas fa-microscope"></i> Instrument Booking</h2>
+    <div class="form-group">
+      <select id="instrument" required>
+        <option value="">-- Select Instrument --</option>
+        <option value="Spectrometer">Spectrometer</option>
+        <option value="XRD">XRD</option>
+        <option value="SEM">SEM</option>
+        <option value="FTIR">FTIR</option>
+        <option value="TGA">TGA</option>
+        <option value="DSC">DSC</option>
+        <option value="AFM">AFM</option>
+        <option value="NMR">NMR</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input type="text" id="name" placeholder="Your Name" required>
+    </div>
+    <div class="form-group">
+      <input type="text" id="number" placeholder="Your Contact Number" required>
+    </div>
+    <div class="form-group">
+      <input type="date" id="date" onchange="updateSlotOptions()" required>
+    </div>
+    <div class="form-group">
+      <select id="slot" onchange="toggleCustomTime(this)">
+        <option value="">-- Select Slot --</option>
+      </select>
+    </div>
+    <div class="form-group" id="customTimeContainer">
+      <input type="text" id="customTime" placeholder="Enter custom time (e.g., 07:00 PM - 08:30 PM)" />
+    </div>
+    <div class="form-group">
+      <select id="purpose" required>
+        <option value="">-- Select Purpose --</option>
+        <option value="Research">Research</option>
+        <option value="Academic">Academic</option>
+        <option value="Testing">Testing</option>
+        <option value="Calibration">Calibration</option>
+        <option value="Demonstration">Demonstration</option>
+      </select>
+    </div>
+    <button onclick="bookInstrument()">Book and Generate NFC ID</button>
+    <div id="bookingIdDisplay"></div>
+
+    <div class="icons">
+      <i class="fas fa-qrcode"></i>
+      <i class="fas fa-id-card"></i>
+      <i class="fas fa-wifi"></i>
+      <i class="fas fa-microchip"></i>
+    </div>
+  </div>
+
+  <script>
+    const bookings = [];
+    const timeSlots = [
+      "09:00 AM - 10:00 AM",
+      "10:00 AM - 11:00 AM",
+      "11:00 AM - 12:00 PM",
+      "12:00 PM - 01:00 PM",
+      "02:00 PM - 03:00 PM",
+      "03:00 PM - 04:00 PM",
+      "04:00 PM - 05:00 PM",
+      "custom"
+    ];
+
+    const dateInput = document.getElementById("date");
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 14);
+    dateInput.min = today.toISOString().split('T')[0];
+    dateInput.max = maxDate.toISOString().split('T')[0];
+
+    function toggleCustomTime(select) {
+      const customTimeContainer = document.getElementById("customTimeContainer");
+      customTimeContainer.style.display = select.value === "custom" ? "block" : "none";
+    }
+
+    function updateSlotOptions() {
+      const slotSelect = document.getElementById("slot");
+      slotSelect.innerHTML = '<option value="">-- Select Slot --</option>';
+      const selectedDate = new Date(document.getElementById("date").value);
+      const now = new Date();
+
+      const availableSlots = timeSlots.filter(slot => {
+        if (slot === "custom") return true;
+        if (selectedDate.toDateString() !== now.toDateString()) return true;
+        const slotHour = parseInt(slot.split(':')[0]);
+        const slotAMPM = slot.includes('PM') ? 12 : 0;
+        const slotStart = new Date(selectedDate);
+        slotStart.setHours(slotHour + slotAMPM, 0, 0, 0);
+        return slotStart > now;
+      });
+
+      availableSlots.forEach(slot => {
+        const option = document.createElement("option");
+        option.value = slot;
+        option.textContent = slot;
+        slotSelect.appendChild(option);
+      });
+    }
+
+    function generateBookingId(inst) {
+      const timestamp = new Date().toISOString().replace(/[-:T.]/g, '').slice(0, 14);
+      return `BK_${inst}_${timestamp}`;
+    }
+
+    function bookInstrument() {
+      const instrument = document.getElementById("instrument").value;
+      const name = document.getElementById("name").value;
+      const number = document.getElementById("number").value;
+      const date = document.getElementById("date").value;
+      let slot = document.getElementById("slot").value;
+      const customTime = document.getElementById("customTime").value;
+      const purpose = document.getElementById("purpose").value;
+
+      if (slot === "custom") {
+        if (!customTime) {
+          alert("Please enter a custom time range.");
+          return;
+        }
+        slot = customTime;
+      }
+
+      if (!instrument || !name || !number || !date || !slot || !purpose) {
+        alert("Please fill all fields.");
+        return;
+      }
+
+      const isAlreadyBooked = bookings.some(b => b.instrument === instrument && b.date === date && b.slot === slot);
+      if (isAlreadyBooked) {
+        alert("This instrument is already booked for the selected time.");
+        return;
+      }
+
+      const bookingId = generateBookingId(instrument);
+      document.getElementById("bookingIdDisplay").innerText = `Booking ID: ${bookingId}`;
+
+      bookings.push({ instrument, name, number, date, slot, purpose, bookingId });
+      console.log("Booking successful:", bookingId);
+    }
+
+    fetch("https://script.google.com/macros/s/AKfycbw21DcPmIGqvs8IP8zrMtDmlXNZ2Eq5tFqpL8pZVFHm_AXV3YqDfHpyChR_ojFMCX0HfQ/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        instrument,
+        name,
+        number,
+        date,
+        slot,
+        purpose,
+        bookingId
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("Saved to Google Sheets:", data);
+    })
+    .catch(error => {
+      console.error("Error saving to Google Sheets:", error);
+    });
+
+  </script>
+</body>
+</html>

@@ -1,228 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login & Register</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Login </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* Splash screen styles */
-	/* Base Reset */
-	* {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #eaf4ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      flex: 1;
+      background: none;
+      border: none;
+      font-weight: bold;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      font-size: 15px;
+    }
+    .tabs button.active {
+      color: #004080;
+      border-color: #004080;
+    }
 
-	/* Centering the login container */
-	html, body {
-		height: 100%;
-		font-family: 'Segoe UI', Tahoma, sans-serif;
-		background: #f2f2f2;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	
-	/* Container box */
-	.container {
-		background: white;
-		padding: 30px;
-		border-radius: 10px;
-		box-shadow: 0 0 15px rgba(0,0,0,0.1);
-		max-width: 400px;
-		width: 100%;
-		text-align: center;
-	}
+    .input-box {
+      position: relative;
+      margin-bottom: 15px;
+    }
+    .input-box input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .input-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
 
-	/* Title */
-	#formTitle {
-		color: #0077b6;
-		margin-bottom: 20px;
-	}
+    .login-btn {
+      background-color: #004080;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-btn:hover {
+      background-color: #002f66;
+    }
 
-	/* Tabs */
-	.tabs {
-		display: flex;
-		justify-content: center;
-		gap: 10px;
-		margin-bottom: 20px;
-	}
+    .forgot-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .forgot-link a {
+      color: #004080;
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-	.tabButton {
-		padding: 10px 20px;
-		border: none;
-		border-radius: 5px;
-		background: #0077b6;
-		color: white;
-		font-weight: bold;
-		cursor: pointer;
-	}
-
-	.tabButton.active {
-		background: #023e8a;
-	}
-
-	/* Form layout */
-	.form {
-		display: flex;
-		flex-direction: column;
-		gap: 15px;
-		margin-top: 10px;
-	}
-
-	input {
-		padding: 10px;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-	}
-
-	button {
-		padding: 10px;
-		background: #0077b6;
-		color: white;
-		border: none;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-
-	button:hover {
-		background: #005f8d;
-	}
-
-	/* Message */
-	#message, #recoveryMessage {
-		margin-top: 10px;
-		font-size: 0.9rem;
-		min-height: 20px;
-	}
-
-	/* Forgot links */
-	.forgot-links {
-		text-align: center;
-		margin-top: 10px;
-	}
-
-	.forgot-links a {
-		text-decoration: none;
-		color: #007BFF;
-		cursor: pointer;
-	}
-
-	.forgot-links a:hover {
-		text-decoration: underline;
-	}
-
-	/* Recovery Section */
-	#recoverySection {
-		margin-top: 15px;
-	}
-	
-    #splash {
+    /* Modal */
+    .modal-overlay {
+      display: none;
       position: fixed;
       top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: white;
-      display: flex;
-      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.4);
       justify-content: center;
-      flex-direction: column;
-      z-index: 1000;
-      opacity: 1;
-      transition: opacity 1s ease-out;
+      align-items: center;
+      z-index: 10;
+    }
+    .modal {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 360px;
+    }
+    .modal h3 {
+      margin-top: 0;
+      text-align: center;
+    }
+    .modal .input-box {
+      margin-bottom: 15px;
+    }
+    .modal .input-box input {
+      width: 100%;
+      padding: 10px 10px 10px 35px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .modal .input-box i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
     }
 
-    #splash.fade-out {
-      opacity: 0;
-      pointer-events: none;
+    .modal button {
+      background: #004080;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
     }
-
-    #splash img {
-      max-width: 200px;
-      margin: 20px;
-      opacity: 0;
-      animation: fadeIn 1.5s ease-in forwards;
-    }
-
-    #splash img:nth-child(2) {
-      animation-delay: 1s;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .hidden {
-      display: none;
+    .modal .cancel {
+      margin-top: 10px;
+      text-align: center;
+      color: red;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Splash Screen -->
-  <div id="splash">
-    <img src="uoh-logo.png" alt="University of Hyderabad Logo" />
-    <img src="tide-logo.png" alt="ASPIRE TIDE Logo" />
+<div class="card">
+  <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+
+  <div class="tabs">
+    <button id="tab1" class="active" onclick="toggleTab('password')"><i class="fas fa-user-lock"></i> Username</button>
+    <button id="tab2" onclick="toggleTab('mpin')"><i class="fas fa-key"></i> M-PIN</button>
   </div>
 
-  <!-- Login/Register Form -->
-  <div class="container hidden" id="mainContent">
-    <h2 id="formTitle">Login</h2>
-    <div class="tabs">
-      <button id="loginTab" class="tabButton active">Login</button>
-      <button id="registerTab" class="tabButton">Register</button>
+
+  <div id="passwordTab">
+    <div class="input-box">
+      <i class="fas fa-user"></i>
+      <input type="text" placeholder="Username" id="username">
     </div>
-
-    <form id="loginForm" class="form">
-      <label for="loginEmail">Email</label>
-      <input type="email" id="loginEmail" required />
-      <label for="loginPassword">Password</label>
-      <input type="password" id="loginPassword" required />
-      <button type="submit">Login</button>
-    </form>
-
-    <form id="registrationForm" class="form" style="display: none;">
-      <label for="regName">Name</label>
-      <input type="text" id="regName" required />
-      <label for="regEmail">Email</label>
-      <input type="email" id="regEmail" required />
-      <label for="regPassword">Password</label>
-      <input type="password" id="regPassword" required />
-      <button type="submit">Register</button>
-    </form>
-
-	<!-- Forgot Links -->
-    <p class="forgot-links">
-      <a href="#" id="forgotUsername">Forgot Username?</a> |
-      <a href="#" id="forgotPassword">Forgot Password?</a>
-    </p>
-
-    <!-- Recovery Section -->
-    <div id="recoverySection" class="form hidden">
-      <label for="recoveryEmail">Enter your registered email</label>
-      <input type="email" id="recoveryEmail" required />
-      <button type="button" id="recoverBtn">Recover</button>
-      <p id="recoveryMessage"></p>
+    <div class="input-box">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder="Password" id="password">
     </div>
-
-    <p id="message"></p>
   </div>
 
-  <script>
-    // Splash screen delay
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash');
-        splash.classList.add('fade-out');
-        setTimeout(() => {
-          splash.classList.add('hidden');
-          document.getElementById('mainContent').classList.remove('hidden');
-        }, 1000); // wait for fade-out to complete
-      }, 5000); // show splash for 5 seconds
-    });
-  </script>
+  <div id="mpinTab" style="display:none;">
+    <div class="input-box">
+      <i class="fas fa-key"></i>
+      <input type="text" placeholder="Enter 4-digit M-PIN" id="mpin" maxlength="4">
+    </div>
+  </div>
 
-  <script src="app.js"></script>
+  <button class="login-btn" onclick="login()">Login</button>
+
+  <div class="forgot-link">
+    <a href="#" onclick="showModal()"><i class="fas fa-question-circle"></i> Forgot Username / Password?</a>
+  </div>
+
+  <!-- Register Section -->
+	<div class="forgot-link" style="margin-top: 10px;">
+	<a href="signup.html"><i class="fas fa-user-plus"></i> Create New Account</a>
+	</div>
+</div>
+
+<!-- Forgot Modal -->
+<div class="modal-overlay" id="recoveryModal">
+  <div class="modal">
+    <h3><i class="fas fa-user-cog"></i> Recover Account</h3>
+    <div class="input-box">
+      <i class="fas fa-user"></i>
+      <input type="text" id="recoverName" placeholder="Full Name used during signup">
+    </div>
+    <div class="input-box">
+      <i class="fas fa-key"></i>
+      <input type="text" id="recoverMpin" placeholder="Enter 4-digit M-PIN" maxlength="4">
+    </div>
+    <button onclick="recover()"><i class="fas fa-search"></i> Recover</button>
+    <div class="cancel" onclick="hideModal()"><i class="fas fa-times-circle"></i> Cancel</div>
+  </div>
+</div>
+
+<script>
+  function toggleTab(type) {
+    const tabs = document.querySelectorAll('.tabs button');
+    tabs.forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById('passwordTab').style.display = (type === 'password') ? 'block' : 'none';
+    document.getElementById('mpinTab').style.display = (type === 'mpin') ? 'block' : 'none';
+
+    document.getElementById('tab1').classList.toggle('active', type === 'password');
+    document.getElementById('tab2').classList.toggle('active', type === 'mpin');
+  }
+
+  function login() {
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if (!users.length) {
+      alert("No users found. Please sign up first.");
+      return;
+    }
+
+    const isMpin = document.getElementById('mpinTab').style.display === 'block';
+    let foundUser = null;
+
+    if (isMpin) {
+      const mpin = document.getElementById("mpin").value.trim();
+      if (!/^\d{4}$/.test(mpin)) {
+        alert("Enter a valid 4-digit M-PIN.");
+        return;
+      }
+      foundUser = users.find(u => u.mpin === mpin);
+    } else {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      if (!username || !password) {
+        alert("Please enter username and password.");
+        return;
+      }
+      foundUser = users.find(u => u.username === username && u.password === password);
+    }
+
+    if (foundUser) {
+      localStorage.setItem("user", JSON.stringify(foundUser)); // store logged-in user
+      alert("Login successful!");
+      location.href = "index.html";
+    } else {
+      alert("Invalid credentials.");
+    }
+  }
+
+  function recover() {
+    const name = document.getElementById("recoverName").value.trim();
+    const mpin = document.getElementById("recoverMpin").value.trim();
+    if (!name || mpin.length !== 4) {
+      alert("Enter valid details.");
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    const user = users.find(u => u.name === name && u.mpin === mpin);
+
+    if (user) {
+      alert(`Username: ${user.username}\nPassword: ${user.password}`);
+      hideModal();
+    } else {
+      alert("No matching user found.");
+    }
+  }
+
+  function showModal() {
+    document.getElementById('recoveryModal').style.display = 'flex';
+  }
+
+  function hideModal() {
+    document.getElementById('recoveryModal').style.display = 'none';
+  }
+</script>
+
+
 </body>
 </html>

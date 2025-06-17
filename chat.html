@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Logistics Chat with Edit/Delete</title>
+  <style>
+    
+	body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ece5dd;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      background: #075e54;
+      color: white;
+      padding: 15px 20px;
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.5rem;
+      user-select: none;
+      text-align: center;
+    }
+
+    #chatBox {
+      flex-grow: 1;
+      padding: 10px;
+      background: #dcdcdc;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: #bbb transparent;
+    }
+    #chatBox::-webkit-scrollbar {
+      width: 6px;
+    }
+    #chatBox::-webkit-scrollbar-thumb {
+      background-color: #bbb;
+      border-radius: 3px;
+    }
+
+    /* Message bubble container */
+    .message {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 7.5px;
+      font-size: 14px;
+      line-height: 1.4;
+      position: relative;
+      word-wrap: break-word;
+      user-select: text;
+      box-shadow: 0 1px 0.5px rgba(0,0,0,0.13);
+    }
+
+    /* Vendor (left) message styling */
+    .message.vendor {
+      background: #ffffff;
+      color: #303030;
+      align-self: flex-start;
+      border-top-left-radius: 0;
+      margin-left: 5px;
+    }
+    /* Vendor bubble "tail" */
+    .message.vendor::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 10px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-right: 6px solid #ffffff;
+      border-bottom: 8px solid transparent;
+    }
+
+    /* Trader (right) message styling */
+    .message.trader {
+      background: #25d366;
+      color: white;
+      align-self: flex-end;
+      border-top-right-radius: 0;
+      margin-right: 5px;
+    }
+    /* Trader bubble "tail" */
+    .message.trader::after {
+      content: "";
+      position: absolute;
+      right: -6px;
+      top: 10px;
+      width: 0;
+      height: 0;
+      border-top: 8px solid transparent;
+      border-left: 6px solid #25d366;
+      border-bottom: 8px solid transparent;
+    }
+
+    /* Timestamp style */
+    .timestamp {
+      font-size: 10px;
+      opacity: 0.6;
+      margin-top: 4px;
+      text-align: right;
+      user-select: none;
+    }
+
+    /* Show sender name on other's messages */
+    .sender {
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 3px;
+      user-select: none;
+    }
+
+    /* Input area styling */
+    .input-container {
+      background: #f0f0f0;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 -2px 5px rgb(0 0 0 / 0.1);
+    }
+    #messageInput {
+      flex-grow: 1;
+      border-radius: 25px;
+      border: none;
+      padding: 10px 20px;
+      font-size: 15px;
+      outline: none;
+      box-shadow: inset 0 0 5px rgb(0 0 0 / 0.1);
+    }
+    #sendBtn {
+      background: #25d366;
+      border: none;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgb(37 211 102 / 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+    #sendBtn:disabled {
+      background: #a9d8b6;
+      cursor: default;
+      box-shadow: none;
+    }
+    #sendBtn:hover:not(:disabled) {
+      background: #1ebe57;
+    }
+
+    /* Send icon (paper plane) */
+    #sendBtn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
+    @media (max-width: 480px) {
+      #chatBox {
+        max-height: calc(100vh - 130px);
+      }
+    }
+   
+    .timestamp button {
+      background: none;
+      border: none;
+      font-size: 12px;
+      margin-left: 5px;
+      cursor: pointer;
+      color: #555;
+      opacity: 0.7;
+    }
+    .timestamp button:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  
+  <h2>ASPIRE Chat window</h2>
+  <div id="chatBox" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+  <div class="input-container">
+    <input
+      type="text"
+      id="messageInput"
+      placeholder="Type a message..."
+      aria-label="Type a message"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <button id="sendBtn" aria-label="Send message" disabled>
+      <!-- Paper plane SVG icon -->
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  
+  <script>
+    
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const chatBox = document.getElementById("chatBox");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Get username & role from localStorage or prompt
+    let loggedInRole = localStorage.getItem("loggedInRole");
+    if (!loggedInRole) {
+      loggedInRole = prompt("Enter your role (Logistics service Provider/trader):", "trader")?.toLowerCase() || "trader";
+      localStorage.setItem("loggedInRole", loggedInRole);
+    }
+    let username = localStorage.getItem("username");
+    if (!username) {
+      username = prompt("Enter your name:", "User") || "User";
+      localStorage.setItem("username", username);
+    }
+
+    // Enable/disable send button
+    messageInput.addEventListener("input", () => {
+      sendBtn.disabled = messageInput.value.trim().length === 0;
+    });
+
+    // Format timestamp like "12:05 PM"
+    function formatTime(ts) {
+      const d = new Date(ts);
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Escape HTML characters to prevent injection
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/\n/g, "<br>");
+    }
+
+    // Send message function
+    function sendMessage() {
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      const msgObj = {
+        user: username,
+        role: loggedInRole,
+        message,
+        timestamp: Date.now()
+      };
+
+      db.ref("chat").push(msgObj);
+      messageInput.value = "";
+      sendBtn.disabled = true;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+
+    // Send on Enter key (no Shift)
+    messageInput.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+	
+    // Update addMessage to support editing and deleting
+    function addMessage(msgObj) {
+      const div = document.createElement("div");
+      div.classList.add("message", msgObj.role);
+      div.dataset.id = msgObj.id;
+
+      const isOwn = msgObj.user === username;
+
+      let innerHTML = "";
+      if (!isOwn) {
+        innerHTML += `<div class="sender">${escapeHtml(msgObj.user)} (${escapeHtml(msgObj.role)})</div>`;
+      }
+
+      innerHTML += `<div class="text">${escapeHtml(msgObj.message)}</div>`;
+
+      innerHTML += `<div class="timestamp">${formatTime(msgObj.timestamp)}
+        ${isOwn ? `
+          <button onclick="editMessage('${msgObj.id}', \`${msgObj.message.replace(/`/g, '\\`')}\`)">✏️</button>
+          <button onclick="deleteMessage('${msgObj.id}')">🗑️</button>` : ""}
+      </div>`;
+
+      div.innerHTML = innerHTML;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Edit message
+    function editMessage(id, oldMessage) {
+      const newMessage = prompt("Edit your message:", oldMessage);
+      if (newMessage && newMessage.trim()) {
+        db.ref(`chat/${id}`).update({
+          message: newMessage.trim(),
+          timestamp: Date.now()
+        });
+      }
+    }
+
+    // Delete message
+    function deleteMessage(id) {
+      if (confirm("Are you sure you want to delete this message?")) {
+        db.ref(`chat/${id}`).remove();
+      }
+    }
+
+    // Listen for changes and deletions
+    db.ref("chat").on("child_added", snapshot => {
+      const msgObj = snapshot.val();
+      msgObj.id = snapshot.key;
+      addMessage(msgObj);
+    });
+
+    db.ref("chat").on("child_changed", snapshot => {
+      const msgObj = snapshot.val();
+      msgObj.id = snapshot.key;
+      const oldDiv = document.querySelector(`.message[data-id='${msgObj.id}']`);
+      if (oldDiv) oldDiv.remove();
+      addMessage(msgObj);
+    });
+
+    db.ref("chat").on("child_removed", snapshot => {
+    const id = snapshot.key;
+    const div = document.querySelector(`.message[data-id='${id}']`);
+    if (div) {
+      div.querySelector(".text").textContent = "🗑️ Message deleted";
+      div.querySelector(".timestamp").textContent = "";
+    }
+    });
+
+  </script>
+</body>
+</html>
